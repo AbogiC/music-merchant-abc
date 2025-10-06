@@ -81,6 +81,7 @@ export default function App() {
 
   useEffect(() => {
     fetchProducts();
+    startProcessPayment();
     // Load cart from localStorage
     const savedCart = localStorage.getItem("musicMerchantCart");
     if (savedCart) {
@@ -98,6 +99,21 @@ export default function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const startProcessPayment = async () => {
+    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const clientKey = process.env.NEXT_PUBLIC_CLIENT;
+    const script = document.createElement("script");
+    script.src = snapScript;
+    script.setAttribute("data-client-key", clientKey);
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   };
 
   const addToCart = (product) => {
@@ -208,6 +224,26 @@ export default function App() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const checkout = async () => {
+    const data = {
+      id: "1",
+      productName: "Test Checkout",
+      price: 150000,
+      quantity: "1",
+    };
+
+    const response = await fetch("/api/tokenizer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const requestData = await response.json();
+    window.snap.pay(requestData.token);
+  };
 
   const Navbar = () => {
     const mainNavItems = [
@@ -805,7 +841,7 @@ export default function App() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" size="lg">
+                  <Button onClick={checkout} className="w-full" size="lg">
                     Proceed to Checkout
                   </Button>
                 </CardFooter>
