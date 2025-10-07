@@ -17,6 +17,7 @@ const ProductCard = ({
   onStartEdit,
   onDeleteProduct,
   onAddToCart,
+  formatPrice,
 }) => (
   <Card className="h-full flex flex-col">
     <CardHeader>
@@ -49,7 +50,9 @@ const ProductCard = ({
     <CardContent className="flex-grow">
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold">${product.price}</span>
+          <span className="text-2xl font-bold">
+            {formatPrice(product.price)}
+          </span>
           <Badge variant="secondary">{product.type}</Badge>
         </div>
         {product.composer && (

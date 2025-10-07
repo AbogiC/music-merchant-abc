@@ -13,6 +13,7 @@ const SheetMusicPage = ({
   onStartEdit,
   onDeleteProduct,
   onAddToCart,
+  formatPrice,
 }) => (
   <div className="container py-8">
     <div className="flex justify-between items-center mb-8">
@@ -50,6 +51,7 @@ const SheetMusicPage = ({
           onStartEdit={onStartEdit}
           onDeleteProduct={onDeleteProduct}
           onAddToCart={onAddToCart}
+          formatPrice={formatPrice}
         />
       ))}
     </div>

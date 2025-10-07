@@ -16,6 +16,8 @@ const CartPage = ({
   removeFromCart,
   checkout,
   cartTotal,
+  formatPrice,
+  shippingCost,
 }) => (
   <div className="container py-8">
     <div className="max-w-4xl mx-auto">
@@ -55,7 +57,9 @@ const CartPage = ({
                       <p className="text-sm text-muted-foreground">
                         {item.description}
                       </p>
-                      <p className="text-lg font-bold">${item.price}</p>
+                      <p className="text-lg font-bold">
+                        {formatPrice(item.price)}
+                      </p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
@@ -100,16 +104,16 @@ const CartPage = ({
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+                    <span>{formatPrice(cartTotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>$5.99</span>
+                    <span>{formatPrice(shippingCost)}</span>
                   </div>
                   <div className="border-t pt-2">
                     <div className="flex justify-between font-bold">
                       <span>Total</span>
-                      <span>${(cartTotal + 5.99).toFixed(2)}</span>
+                      <span>{formatPrice(cartTotal + shippingCost)}</span>
                     </div>
                   </div>
                 </div>

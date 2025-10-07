@@ -3,6 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Music,
   Home,
   Music2,
@@ -13,7 +20,15 @@ import {
   Menu,
 } from "lucide-react";
 
-const Navbar = ({ currentPage, setCurrentPage, cart, isAdmin, setIsAdmin }) => {
+const Navbar = ({
+  currentPage,
+  setCurrentPage,
+  cart,
+  isAdmin,
+  setIsAdmin,
+  currency,
+  setCurrency,
+}) => {
   const mainNavItems = [
     { label: "Home", icon: Home, page: "home" },
     { label: "Sheet Music", icon: Music2, page: "sheet-music" },
@@ -57,6 +72,15 @@ const Navbar = ({ currentPage, setCurrentPage, cart, isAdmin, setIsAdmin }) => {
               </Badge>
             )}
           </Button>
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger className="w-20 ml-4">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="USD">USD</SelectItem>
+              <SelectItem value="IDR">IDR</SelectItem>
+            </SelectContent>
+          </Select>
           <Button
             variant={isAdmin ? "destructive" : "outline"}
             onClick={() => setIsAdmin(!isAdmin)}
@@ -98,6 +122,15 @@ const Navbar = ({ currentPage, setCurrentPage, cart, isAdmin, setIsAdmin }) => {
                   </Badge>
                 )}
               </Button>
+              <Select value={currency} onValueChange={setCurrency}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="USD">USD</SelectItem>
+                  <SelectItem value="IDR">IDR</SelectItem>
+                </SelectContent>
+              </Select>
               <Button
                 variant={isAdmin ? "destructive" : "outline"}
                 onClick={() => setIsAdmin(!isAdmin)}

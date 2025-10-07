@@ -13,6 +13,8 @@ import ProfilePage from "@/components/ProfilePage";
 import CartPage from "@/components/CartPage";
 import ProductDialog from "@/components/ProductDialog";
 
+import { v4 as uuidv4 } from "uuid";
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [cart, setCart] = useState([]);
@@ -22,6 +24,7 @@ export default function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showProductDialog, setShowProductDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [currency, setCurrency] = useState("USD");
 
   // Product form state
   const [productForm, setProductForm] = useState({
@@ -179,16 +182,32 @@ export default function App() {
     return filteredProducts.filter((product) => product.category === category);
   };
 
+  const shippingCost = 4.59;
+
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  const exchangeRate = 15000; // 1 USD = 15000 IDR
+
+  const formatCurrency = (price) => {
+    return `${price * exchangeRate}`;
+  };
+
+  const formatPrice = (price) => {
+    if (currency === "USD") {
+      return `$${parseFloat(price).toFixed(2)}`;
+    } else {
+      return `Rp ${(price * exchangeRate).toLocaleString("id-ID")}`;
+    }
+  };
+
   const checkout = async () => {
     const data = {
-      id: "1",
+      id: uuidv4(),
       productName: "Test Checkout",
-      price: 150000,
+      price: formatCurrency(cartTotal + shippingCost),
       quantity: "1",
     };
 
@@ -212,6 +231,7 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             products={products}
             onAddToCart={addToCart}
+            formatPrice={formatPrice}
           />
         );
       case "sheet-music":
@@ -225,6 +245,7 @@ export default function App() {
             onStartEdit={startEdit}
             onDeleteProduct={deleteProduct}
             onAddToCart={addToCart}
+            formatPrice={formatPrice}
           />
         );
       case "equipment":
@@ -238,6 +259,7 @@ export default function App() {
             onStartEdit={startEdit}
             onDeleteProduct={deleteProduct}
             onAddToCart={addToCart}
+            formatPrice={formatPrice}
           />
         );
       case "services":
@@ -253,6 +275,8 @@ export default function App() {
             removeFromCart={removeFromCart}
             checkout={checkout}
             cartTotal={cartTotal}
+            formatPrice={formatPrice}
+            shippingCost={shippingCost}
           />
         );
       default:
@@ -261,6 +285,7 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             products={products}
             onAddToCart={addToCart}
+            formatPrice={formatPrice}
           />
         );
     }
@@ -285,6 +310,8 @@ export default function App() {
         cart={cart}
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
+        currency={currency}
+        setCurrency={setCurrency}
       />
       <main>{renderCurrentPage()}</main>
       <ProductDialog

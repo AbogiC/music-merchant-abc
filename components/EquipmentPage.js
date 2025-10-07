@@ -14,6 +14,7 @@ const EquipmentPage = ({
   onStartEdit,
   onDeleteProduct,
   onAddToCart,
+  formatPrice,
 }) => (
   <div className="container py-8">
     <div className="flex justify-between items-center mb-8">
@@ -58,6 +59,7 @@ const EquipmentPage = ({
               onStartEdit={onStartEdit}
               onDeleteProduct={onDeleteProduct}
               onAddToCart={onAddToCart}
+              formatPrice={formatPrice}
             />
           ))}
         </div>
@@ -73,6 +75,7 @@ const EquipmentPage = ({
               onStartEdit={onStartEdit}
               onDeleteProduct={onDeleteProduct}
               onAddToCart={onAddToCart}
+              formatPrice={formatPrice}
             />
           ))}
         </div>

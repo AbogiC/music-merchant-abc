@@ -10,7 +10,7 @@ import {
 import { Music, Guitar, Headphones } from "lucide-react";
 import ProductCard from "./ProductCard";
 
-const HomePage = ({ setCurrentPage, products, onAddToCart }) => (
+const HomePage = ({ setCurrentPage, products, onAddToCart, formatPrice }) => (
   <div className="space-y-12">
     {/* Hero Section */}
     <section className="relative py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
@@ -46,6 +46,7 @@ const HomePage = ({ setCurrentPage, products, onAddToCart }) => (
             key={product.id}
             product={product}
             onAddToCart={onAddToCart}
+            formatPrice={formatPrice}
           />
         ))}
       </div>
